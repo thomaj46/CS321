@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<project name="Assignment01.Q4" default="all">
+
+    <target name="clean">
+        <delete failonerror="false" dir="bin" />
+    </target>
+
+    <target name="create" depends="clean">
+        <mkdir dir="bin"/>
+    </target>
+
+    <target name="compile" depends="create">
+        <javac srcdir="./" destdir="bin" includeantruntime="false"  />
+    </target>
+
+    <target name="run" depends="compile">
+        <java classname="CS321.assignments.assignment01.q4.SortComparison" classpath="bin" />
+    </target>
+
+    <target name="all" depends="run">
+    </target>
+
+</project>
