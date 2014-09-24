@@ -11,3 +11,4 @@ BubbleSort.sort() took 4 milliseconds to sort 1000 items.
 BubbleSort.sort() took 134 milliseconds to sort 10000 items.
 BubbleSort.sort() took 13933 milliseconds to sort 100000 items.
 BubbleSort.sort() took 1360197 milliseconds to sort 1000000 items.
+BubbleSort.sort() took 157840047 milliseconds to sort 10000000 items.
