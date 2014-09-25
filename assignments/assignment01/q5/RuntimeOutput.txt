@@ -1,3 +1,3 @@
 Running of linear algorithm with n = 38 has runtime in nanoseconds: 1237
-Running of cubic algorithm with n = 38 has runtime in milliseconds: 4
+Running of polynomial algorithm with n = 38 and exponent = 6 has runtime in milliseconds: 8752
 Running of exponential algorithm with n = 38 has runtime in milliseconds: 770631
