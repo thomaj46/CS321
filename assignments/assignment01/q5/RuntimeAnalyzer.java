@@ -10,7 +10,7 @@ public class RuntimeAnalyzer
         int n = 38;
 
         runLinearAlgorithm(n);
-        runCubicAlgorithm(n);
+        runPolynomialAlgorithm(n);
         runExponentialAlgorithm(n);
     }
 
@@ -22,12 +22,12 @@ public class RuntimeAnalyzer
         System.out.println(LinearRunner.run(n));
     }
 
-    public static void runCubicAlgorithm(int n)
+    public static void runPolynomialAlgorithm(int n)
     {
         System.out.print("Running of cubic algorithm with n = ");
         System.out.print(n);
         System.out.print(" has runtime in milliseconds: ");
-        System.out.println(CubicRunner.run(n, 3));
+        System.out.println(PolynomialRunner.run(n, 6));
     }
 
     public static void runExponentialAlgorithm(int n)

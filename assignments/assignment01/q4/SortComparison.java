@@ -20,7 +20,7 @@ public class SortComparison
         }
 
         stringBuilder = new StringBuilder();
-        for (int i = 10; i < 10001; i *= 10)
+        for (int i = 10; i < 10000001; i *= 10)
         {
             long bubbleSortRuntime = timeBubbleSort(i);
             stringBuilder.append("BubbleSort.sort() took ").append(bubbleSortRuntime).append(" milliseconds to sort ").append(i).append(" items.");
