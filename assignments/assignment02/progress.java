@@ -1,5 +1,3 @@
-package problem3;
-
 import java.util.Random;
 
 /**
@@ -32,32 +30,37 @@ public class StockAnalyzer
 
     public static int findMaxProfit(int begin, int end, int[] values)
     {
-        if (end - begin < 2)
+        int difference = end - begin;
+        if (difference == 0)
         {
             return values[begin];
+        }
+
+        if (difference == 1)
+        {
+            return values[begin] + values[end];
         }
 
         int mid = (end + begin) / 2;
         int leftSide = StockAnalyzer.findMaxProfit(begin, mid, values);
         int rightSide = StockAnalyzer.findMaxProfit(mid, end, values);
-        int leftXBuy = findLeftMaxSum(mid, begin, values);
-        int rightXSell = findRightMaxSum(mid, end, values);
+        int maxLeftHalf = findLeftMaxSum(mid, begin, values);
+        int maxRightHalf = findRightMaxSum(mid, end, values);
+        int midProfit = maxLeftHalf + maxRightHalf;
 
         int bestProfit = Math.max(rightSide, leftSide);
-        maxProfit = profit > maxProfit ? profit : maxProfit;
+        bestProfit = Math.max(bestProfit, midProfit);
 
-        System.out.println(maxProfit);
+        System.out.println(bestProfit);
 
-        return Math.max(rightSide, leftSide);
+        return bestProfit;
     }
 
-    public static
-
-    public static int findLeftMaxSum(int start, int end, int[] values)
+    public static int findLeftMaxSum(int mid, int end, int[] values)
     {
         int maxSum = Integer.MIN_VALUE;
         int total = Integer.MIN_VALUE;
-        for(int i = start; i > end; i -= 1)
+        for(int i = mid; i < end; i -= 1)
         {
             total += values[i];
             maxSum = total > maxSum ? total : maxSum;
@@ -66,11 +69,11 @@ public class StockAnalyzer
         return maxSum;
     }
 
-    public static int findRightMaxSum(int start, int end, int[] values)
+    public static int findRightMaxSum(int start, int mid, int[] values)
     {
         int maxSum = Integer.MIN_VALUE;
         int total = Integer.MIN_VALUE;
-        for(int i = start; i <= end; i += 1)
+        for(int i = start; i <= mid; i += 1)
         {
             total += values[i];
             maxSum = total > maxSum ? total : maxSum;
