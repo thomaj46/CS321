@@ -1,31 +1,20 @@
-import java.util.Random;
-
-/**
- * Created by thomaj46 on 10/8/2014.
- */
 public class StockAnalyzer
 {
-    private static int maxProfit = Integer.MIN_VALUE;
-
     public static void main(String[] args)
     {
-//        for (int p = 284; p < 285; p += 1)
-//        {
-//            Random random = new Random(p);
-//            int size = 10000000;
-//            int[] vals = new int[size];
-//            for (int i = 0; i < size; i += 1)
-//            {
-//                vals[i] = random.nextInt(Integer.MAX_VALUE);
-//            }
-//
-//            double maxProfit = StockAnalyzer.findMaxProfit(0, size - 1, vals);
-//            System.out.println(maxProfit);
-//        }
+        for (int p = 284; p < 290; p += 1)
+        {
+            Random random = new Random(p);
+            int size = 10000000;
+            int[] values = new int[size];
+            for (int i = 0; i < size; i += 1)
+            {
+                values[i] = random.nextInt(Integer.MAX_VALUE);
+            }
 
-        int[] myArr = new int[]{ 4, -7, 3, 3, -5, -2, 3, -2, 4 };
-        int maxProfit = StockAnalyzer.findMaxProfit(0, myArr.length - 1, myArr);
-        System.out.println(maxProfit);
+            double maxProfit = StockAnalyzer.findMaxProfit(0, size - 1, values);
+            System.out.printf("Max Profit: %.0f\n", maxProfit);
+        }
     }
 
     public static int findMaxProfit(int begin, int end, int[] values)
@@ -50,8 +39,6 @@ public class StockAnalyzer
 
         int bestProfit = Math.max(rightSide, leftSide);
         bestProfit = Math.max(bestProfit, midProfit);
-
-        System.out.println(bestProfit);
 
         return bestProfit;
     }
