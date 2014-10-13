@@ -1,4 +1,10 @@
-public class StockAnalyzer
+package CS321.assignments.assignment02.problem03;
+import java.util.Random;
+
+/**
+ * Created by thomaj46 on 10/8/2014.
+ */
+public class Problem03
 {
     public static void main(String[] args)
     {
@@ -12,7 +18,7 @@ public class StockAnalyzer
                 values[i] = random.nextInt(Integer.MAX_VALUE);
             }
 
-            double maxProfit = StockAnalyzer.findMaxProfit(0, size - 1, values);
+            double maxProfit = Problem03.findMaxProfit(0, size - 1, values);
             System.out.printf("Max Profit: %.0f\n", maxProfit);
         }
     }
@@ -31,8 +37,8 @@ public class StockAnalyzer
         }
 
         int mid = (end + begin) / 2;
-        int leftSide = StockAnalyzer.findMaxProfit(begin, mid, values);
-        int rightSide = StockAnalyzer.findMaxProfit(mid, end, values);
+        int leftSide = Problem03.findMaxProfit(begin, mid, values);
+        int rightSide = Problem03.findMaxProfit(mid, end, values);
         int maxLeftHalf = findLeftMaxSum(mid, begin, values);
         int maxRightHalf = findRightMaxSum(mid, end, values);
         int midProfit = maxLeftHalf + maxRightHalf;
