@@ -36,7 +36,6 @@ public class Problem02
 
     public void processInputFile()
     {
-        int[] input = null;
         try
         {
             BufferedReader reader = new BufferedReader(new FileReader(inputFile));
@@ -63,19 +62,6 @@ public class Problem02
         {
             System.out.println("Error processing input.");
             System.out.print(exception);
-        }
-
-        ;
-    }
-
-    private class Input
-    {
-        public int OpenIndex;
-        public ArrayList<Integer> Altitudes;
-
-        public Input()
-        {
-            this.Altitudes = new ArrayList<Integer>();
         }
     }
 }
