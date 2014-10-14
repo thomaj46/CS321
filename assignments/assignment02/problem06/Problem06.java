@@ -1,18 +1,14 @@
-package CS321.assignments.assignment02.problem06;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
 /**
- * Created by John on 10/12/2014.
+ * Created by thomaj46 on 10/13/2014.
  */
 public class Problem06
 {
     public static void main(String[] args) throws Exception
     {
-        // Read Wisconsin File into an array
-
         ArrayList<Integer> wisconsin = new ArrayList<Integer>();
         ArrayList<Integer> minnesota = new ArrayList<Integer>();
         String filename = "input6.txt";
@@ -35,7 +31,6 @@ public class Problem06
         }
         reader.close();
 
-//         Testing Calls
         System.out.println(findkth(wisconsin, minnesota, 0));
         System.out.println(findkth(wisconsin, minnesota, 1));
         System.out.println(findkth(wisconsin, minnesota, 2));
@@ -59,50 +54,92 @@ public class Problem06
 
     public static int findkth(ArrayList<Integer> A, ArrayList<Integer> B, int k)
     {
-        return findKthLargest(A, B, k, 0, A.size() - 1, 0, B.size() - 1);
+
+        return kthSmallest(A, B, (A.size() + B.size() - k));
     }
 
-    public static int findKthLargest(ArrayList<Integer> A, ArrayList<Integer> B, int k, int aStart, int aEnd, int bStart, int bEnd)
-    {
-        if (k == 0)
+
+    public static Integer kthSmallest(ArrayList<Integer> aList, ArrayList<Integer> bList, int k) {
+        int aListSize = aList.size();
+        int bListSize = bList.size();
+        int aStart = 1;
+        int bStart = 1;
+        int aEnd = k;
+        int bEnd = k;
+        int k1 = k;
+        int k2 = k;
+        int aLast = aListSize;
+        int bLast = bListSize;
+
+        while (k1 > 2 || k2 > 2)
         {
-            return Math.max(A.get(aEnd), B.get(bEnd));
+            int aMid = (aStart + aEnd) / 2;
+            int bMid = k - aMid;
+            int aVal;
+            int bVal;
+
+            if (aMid > aLast)
+            {
+                bVal = bList.get(bMid - 1);
+                aVal = bVal + 1;
+            }
+            else if (bMid > bLast)
+            {
+                aVal = aList.get(aMid - 1);
+                bVal = aVal + 1;
+            }
+            else
+            {
+                aVal = aList.get(aMid - 1);
+                bVal = bList.get(bMid - 1);
+            }
+
+            if (aVal == bVal)
+            {
+                return aVal;
+            }
+            else if (aVal > bVal)
+            {
+                aEnd = aMid;
+                bStart = bMid;
+            }
+            else
+            {
+                aStart = aMid;
+                bEnd = bMid;
+            }
+
+            k1 = aEnd - aStart + 1;
+            k2 = bEnd - bStart + 1;
+            aLast = Math.min(aListSize, aEnd);
+            bLast = Math.min(bListSize, bEnd);
         }
 
-        if (k == 1)
+        if (k <= 2)
         {
-            int aValue = A.get(aEnd) > B.get(bEnd) ? A.get(aEnd - 1) : A.get(aEnd);
-            int bValue = B.get(bEnd) > A.get(aEnd) ? B.get(bEnd - 1) : B.get(bEnd);
-            return Math.max(aValue, bValue);
+            int val1 = Math.min(aList.get(aStart - 1), aList.get(aLast - 1));
+            int val2 = Math.min(bList.get(bStart - 1), bList.get(bLast - 1));
+            return (k == 1) ? Math.min(val1, val2) : Math.max(val1, val2);
         }
 
-        if ((aEnd - aStart) > k)
+        if (aStart == aLast)
         {
-            aStart = aEnd - k;
+            int val1 = aList.get(aStart - 1);
+            int val2 = bList.get(k - aStart - 1);
+            return Math.max(val1, val2);
         }
 
-        if ((bEnd - bStart) > k)
+        if (bStart == bLast)
         {
-            bStart = bEnd - k;
+            int val2 = bList.get(bStart - 1);
+            int val1 = aList.get(k - bStart - 1);
+            return Math.max(val1, val2);
         }
 
-        int aMid = (aStart + aEnd) / 2;
-        int bMid = (bStart + bEnd) / 2;
+        int max1 = Math.max(aList.get(aStart - 1), aList.get(aLast - 1));
+        int max2 = Math.max(bList.get(bStart - 1), bList.get(bLast - 1));
+        int min = Math.min(max1, max2);
 
-        aMid = aMid < 0 ? 0 : aMid;
-        bMid = bMid < 0 ? 0 : bMid;
-
-        int aVal = A.get(aMid);
-        int bVal = B.get(bMid);
-
-
-        if (aVal > bVal)
-        {
-            return findKthLargest(A, B, k / 2, aStart, aMid, bMid, bEnd);
-        }
-        else
-        {
-            return findKthLargest(A, B, k / 2, aMid, aEnd, bStart, bMid);
-        }
+        return min;
     }
 }
