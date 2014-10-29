@@ -17,4 +17,29 @@ public class Node
     {
         this.Id = id;
     }
+
+    public boolean HasTopChild()
+    {
+        return this.TopChild != 0;
+    }
+
+    public boolean HasMiddleChild()
+    {
+        return this.MiddleChild != 0;
+    }
+
+    public boolean HasBottomChild()
+    {
+        return this.BottomChild != 0;
+    }
+
+    public boolean HasChildren()
+    {
+        return this.HasTopChild() || this.HasMiddleChild() || this.HasBottomChild();
+    }
+
+    public boolean HasNoChildren()
+    {
+        return !this.HasChildren();
+    }
 }
