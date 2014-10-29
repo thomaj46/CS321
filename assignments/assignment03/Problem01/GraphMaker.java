@@ -22,8 +22,8 @@ public class GraphMaker
 
     public Node[] makeGraph()
     {
-        Node[] graph = new Node[this.numberOfNodes];
-        int index = 0;
+        Node[] graph = new Node[this.numberOfNodes + 1];
+        int index = 1;
         Node[] columnNodes = this.nextColumnNodes();
         while(columnNodes.length > 0)
         {
