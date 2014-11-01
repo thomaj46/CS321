@@ -42,65 +42,60 @@ public class Problem01
             this.bottomSolutions[i] = Integer.MIN_VALUE;
         }
 
+        this.printSolution();
+    }
+
+    private void printSolution ()
+    {
         int solution = this.findMax();
-        System.out.println(solution);
+        Node node = this.graph[1];
+        System.out.print(solution + " {" + node.Id);
+        Path path = node.BestPathComingFrom(Path.None, this.turnPenalty);
+        node = node.GetChild(path);
+        while (node != null && node.Id > 0)
+        {
+            System.out.print(", " + node.Id);
+            path = node.BestPathComingFrom(path, this.turnPenalty);
+            node = node.GetChild(path);
+        }
+
+        System.out.println("}");
     }
 
     private int findMax ()
     {
-        Node rootNode = this.graph[1];
-        int top = this.findMax(Path.Top, this.graph[rootNode.TopChild]) + rootNode.TopChildCost;
-        int middle = this.findMax(Path.Middle, this.graph[rootNode.MiddleChild]) + rootNode.MiddleChildCost;
-        int bottom = this.findMax(Path.Bottom, this.graph[rootNode.BottomChild]) + rootNode.BottomChildCost;
-
-        return Math.max(Math.max(top, middle), bottom);
+        return findBestWeight(Path.None, this.graph[1]);
     }
 
-    private int findMax (Path currentPath, Node currentNode)
+    private int findBestWeight (Path currentPath, Node currentNode)
     {
         if (currentNode.HasNoChildren())
         {
             return 0;
         }
 
-        if (currentPath == Path.Top && this.topSolutions[currentNode.Id] > Integer.MIN_VALUE)
+        if (currentNode.ChildSolutionsFound)
         {
-            return this.topSolutions[currentNode.Id];
+            return currentNode.BestWeightComingFrom(currentPath, this.turnPenalty);
         }
 
-        if (currentPath == Path.Middle && this.middleSolutions[currentNode.Id] > Integer.MIN_VALUE)
-        {
-            return this.middleSolutions[currentNode.Id];
-        }
-
-        if (currentPath == Path.Bottom && this.bottomSolutions[currentNode.Id] > Integer.MIN_VALUE)
-        {
-            return this.bottomSolutions[currentNode.Id];
-        }
-
-        int penalty;
         if (currentNode.HasTopChild())
         {
-            penalty = currentPath == Path.Top ? 0 : this.turnPenalty;
-            this.topSolutions[currentNode.Id] = this.findMax(Path.Top, this.graph[currentNode.TopChild]) + currentNode.TopChildCost + penalty;
+            currentNode.TopChildSolution = currentNode.TopChildWeight + this.findBestWeight(Path.Top, currentNode.TopChild);
         }
 
         if (currentNode.HasMiddleChild())
         {
-            penalty = currentPath == Path.Middle ? 0 : this.turnPenalty;
-            this.middleSolutions[currentNode.Id] = this.findMax(Path.Middle, this.graph[currentNode.MiddleChild]) + currentNode.MiddleChildCost + penalty;
+            currentNode.MiddleChildSolution = currentNode.MiddleChildWeight + this.findBestWeight(Path.Middle, currentNode.MiddleChild);
         }
 
         if (currentNode.HasBottomChild())
         {
-            penalty = currentPath == Path.Bottom ? 0 : this.turnPenalty;
-            this.bottomSolutions[currentNode.Id] = this.findMax(Path.Bottom, this.graph[currentNode.BottomChild]) + currentNode.BottomChildCost + penalty;
+            currentNode.BottomChildSolution = currentNode.BottomChildWeight + this.findBestWeight(Path.Bottom, currentNode.BottomChild);
         }
 
-        int top = this.topSolutions[currentNode.Id];
-        int middle = this.middleSolutions[currentNode.Id];
-        int bottom = this.bottomSolutions[currentNode.Id];
-        return Math.max(Math.max(top, middle), bottom);
+        currentNode.ChildSolutionsFound = true;
+        return currentNode.BestWeightComingFrom(currentPath, this.turnPenalty);
     }
 
     private void fillGraphWeights (int[] input)
@@ -110,13 +105,13 @@ public class Problem01
         for (int i = 1; i < this.graph.length; i += 1)
         {
             node = this.graph[i];
-            node.TopChildCost = node.HasTopChild() ? input[nextWeight++] : 0;
-            node.MiddleChildCost = node.HasMiddleChild() ? input[nextWeight++] : 0;
-            node.BottomChildCost = node.HasBottomChild() ? input[nextWeight++] : 0;
+            node.TopChildWeight = node.HasTopChild() ? input[nextWeight++] : 0;
+            node.MiddleChildWeight = node.HasMiddleChild() ? input[nextWeight++] : 0;
+            node.BottomChildWeight = node.HasBottomChild() ? input[nextWeight++] : 0;
         }
     }
 
-    public int[] processInputFile ()
+    private int[] processInputFile ()
     {
         int[] input = new int[0];
         try
@@ -139,18 +134,4 @@ public class Problem01
         return input;
     }
 
-    private void printGraph ()
-    {
-        for (Node node : this.graph)
-        {
-            System.out.println("Node: " + node.Id + " TopChild: " + node.TopChild + " MiddleChild: " + node.MiddleChild + " BottomChild: " + node.BottomChild);
-        }
-    }
-
-    private enum Path
-    {
-        Top,
-        Middle,
-        Bottom,
-    }
 }

@@ -23,6 +23,7 @@ public class GraphMaker
     public Node[] makeGraph()
     {
         Node[] graph = new Node[this.numberOfNodes + 1];
+        graph[0] = new Node(0);
         int index = 1;
         Node[] columnNodes = this.nextColumnNodes();
         while(columnNodes.length > 0)
@@ -35,6 +36,13 @@ public class GraphMaker
             }
 
             columnNodes = this.nextColumnNodes();
+        }
+
+        for (Node node : graph)
+        {
+            node.TopChild = graph[node.TopChildId];
+            node.MiddleChild = graph[node.MiddleChildId];
+            node.BottomChild = graph[node.BottomChildId];
         }
 
         return graph;
@@ -64,31 +72,31 @@ public class GraphMaker
             {
                 if (i > 0)
                 {
-                    tempNode.TopChild = nodeId + nodesInColumn - 1;
+                    tempNode.TopChildId = nodeId + nodesInColumn - 1;
                 }
                 if (i < nodesInColumn - 1)
                 {
-                    tempNode.BottomChild = nodeId + nodesInColumn;
+                    tempNode.BottomChildId = nodeId + nodesInColumn;
                 }
 
                 if (i != 0 && i != nodesInColumn - 1)
                 {
-                    tempNode.MiddleChild = nodeId + middleChildOffset;
+                    tempNode.MiddleChildId = nodeId + middleChildOffset;
                 }
 
             }
             else
             {
-                tempNode.TopChild = nodeId + nodesInColumn;
-                tempNode.BottomChild = nodeId + nodesInColumn + 1;
+                tempNode.TopChildId = nodeId + nodesInColumn;
+                tempNode.BottomChildId = nodeId + nodesInColumn + 1;
 
                 if (currentColumn + 1 >= square)
                 {
-                    tempNode.MiddleChild = nodeId + middleChildOffset - 1;
+                    tempNode.MiddleChildId = nodeId + middleChildOffset - 1;
                 }
                 else
                 {
-                    tempNode.MiddleChild = nodeId + middleChildOffset;
+                    tempNode.MiddleChildId = nodeId + middleChildOffset;
                 }
 
             }
