@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<project name="Assignment03.Problem01" default="all">
+
+    <target name="clean">
+        <delete failonerror="false" dir="bin" />
+    </target>
+
+    <target name="create" depends="clean">
+        <mkdir dir="bin"/>
+    </target>
+
+    <target name="compile" depends="create">
+        <javac srcdir="./" destdir="bin" includeantruntime="false"  />
+    </target>
+
+    <target name="run" depends="compile">
+        <java classname="CS321.assignments.assignment03.problem01.Problem01" classpath="bin" />
+    </target>
+
+    <target name="all" depends="run">
+    </target>
+
+</project>

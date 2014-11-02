@@ -1,4 +1,4 @@
-package CS321.assignments.assignment03.Problem01;
+package CS321.assignments.assignment03.problem01;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -9,11 +9,7 @@ import java.io.FileReader;
 public class Problem01
 {
     private int turnPenalty;
-    private int numberOfNodes;
     private Node[] graph;
-    private int[] topSolutions;
-    private int[] middleSolutions;
-    private int[] bottomSolutions;
 
     public static void main (String[] args)
     {
@@ -29,19 +25,9 @@ public class Problem01
         }
 
         this.turnPenalty = input[0];
-        this.numberOfNodes = input[1];
-        this.graph = new GraphMaker(this.numberOfNodes).makeGraph();
+        int numberOfNodes = input[1];
+        this.graph = new GraphMaker(numberOfNodes).makeGraph();
         this.fillGraphWeights(input);
-        this.topSolutions = new int[this.graph.length];
-        this.middleSolutions = new int[this.graph.length];
-        this.bottomSolutions = new int[this.graph.length];
-        for (int i = 0; i < this.graph.length; i +=1)
-        {
-            this.topSolutions[i] = Integer.MIN_VALUE;
-            this.middleSolutions[i] = Integer.MIN_VALUE;
-            this.bottomSolutions[i] = Integer.MIN_VALUE;
-        }
-
         this.printSolution();
     }
 
